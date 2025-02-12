@@ -30,6 +30,14 @@ exports.registerUser = async (request, h) => {
 exports.loginUser = async (request, h) => {
 	const { email, password } = request.payload;
 
+	if (!email || !password) {
+		return h.response({ massage: "Masukkan email dan password" });
+	}
+
+	if (!email.includes("@")) {
+		return h.response({ massage: "Masukkan email dengan benar" });
+	}
+
 	const user = await User.findOne({ email });
 	if (!user) return h.response({ message: "Email tidak terdaftar!" }).code(400);
 
